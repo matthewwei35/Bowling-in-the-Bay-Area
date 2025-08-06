@@ -163,7 +163,7 @@ function fetchSingleAlley(alleyId) {
 
       let newHtml = `
         <div class="row">
-          <a class="back-button btn w-auto col-3" href="https://bowling-in-bay-area.glitch.me/#">Back to Alleys List</a>
+          <a class="back-button btn w-auto col-3" href="index.html">Back to Alleys List</a>
         </div>
         <div class="row">
           <div class="col">
