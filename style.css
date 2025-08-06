@@ -1,0 +1,122 @@
+/* a minimalist set of CSS resets */
+
+/* default to border-box */
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+/* adjust typography defaults */
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  line-height: 1.5;
+  background-color: #d2f7e2;
+}
+
+navbar {
+  background-color: #f8f9fa;
+}
+
+h1 {
+  font-family: 'Bowlby One', cursive;
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+}
+
+.navbar-brand {
+  font-family: 'Bowlby One', cursive;
+  font-size: 0.9em;
+}
+
+#icon {
+  margin-right: 0.5em;
+}
+
+.container {
+  margin-top: 2em;
+}
+
+.alley-card {
+  margin-bottom: 3em;
+  position: relative;
+}
+
+.alley-card a::before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+
+}
+
+.card {
+  height: 100%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin: 1em 1em;
+  transition: all 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05)
+}
+
+.card img {
+  border-radius: 5px 5px 0px 0px;
+  height: auto;
+  max-height: 250px;
+  width: auto;
+  max-width: 520px;
+}
+
+.card-title {
+  font-weight: bold;
+  font-size: 1.25em;
+}
+
+#details-title {
+  font-size: 1.5em;
+  background-color: lightgreen;
+  width: fit-content;
+  padding: 0.5em;
+  border-radius: 5px;
+}
+
+.details-image {
+  border-radius: 5px 5px 5px 5px;
+  height: auto;
+  max-height: 80vh;
+  width: 100%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 1em;
+}
+
+.back-button {
+  margin: 0 0 1em 1em;
+  background-color: #F96660;
+  color: #000000;
+}
+
+.back-button:hover {
+  background-color: #C13C43;
+  color: #FFFFFF;
+}
+
+.btn-primary {
+  background-color: #9dc6e3;
+  color: #000000;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #4B87A5;
+}
+

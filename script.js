@@ -1,0 +1,235 @@
+"use strict";
+
+const BOWLING_URL =
+  "https://api.airtable.com/v0/appUhZDjpPFoymNNj/Bowling%20Alley%20Info";
+
+// function for our list view
+async function fetchAlleys() {
+  let getResultElement = document.getElementById("alley-container");
+
+  const options = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer patuwPLWf5SBeDkyT.45118f887bbc6a79e8bb6c9d327b8c8105866bb0d6a0cdc2290006ddec22a74d`,
+    },
+  };
+
+  await fetch(
+    `${BOWLING_URL}`,
+    options
+  )
+    .then((response) => response.json())
+
+    .then((data) => {
+      console.log(data); // response is an object w/ .records array
+
+      getResultElement.innerHTML = ""; // clear alleys
+
+      let newHtml = "";
+
+      for (let i = 0; i < data.records.length; i++) {
+        let alleyPic = data.records[i].fields["image"];
+        let alleyName = data.records[i].fields["name"];
+        let alleyAddress = data.records[i].fields["address"];
+        let alleyHours = data.records[i].fields["hours"];
+        let alleyURL = data.records[i].fields["url"];
+        let alleyPhone = formatPhoneNumber(data.records[i].fields["phone"]);
+        let alleyLanes = data.records[i].fields["lanes"];
+        let alleyCost = data.records[i].fields["cost"];
+
+        newHtml += `
+        
+          <div class="col-md-4 alley-card">
+            <div class="card">
+              ${alleyPic ? `<img src="${alleyPic[0].url}" alt="Photo of ${alleyName}">` : ``}
+              <div class="card-body">
+                <h5 class="card-title">
+                   ${alleyName}
+                </h5>
+                <p>${alleyAddress}</p>
+                <a class="mt-1 btn btn-primary mt-2" href="index.html?id=${
+                  data.records[i].id
+                }">View Details</a>
+              </div>
+            </div>
+          </div>
+    
+        
+        `;
+      }
+
+      getResultElement.innerHTML = newHtml;
+    });
+}
+
+
+
+// const SUMMARY_QUERY =
+//   "?fields%5B%5D=image&fields%5B%5D=name&fields%5B%5D=description&fields%5B%5D=address&fields%5B%5D=url&fields%5B%5D=hours&fields%5B%5D=phone&fields%5B%5D=league&fields%5B%5D=lanes&fields%5B%5D=cost";
+
+function formatPhoneNumber(phoneNumberString) {
+  let cleaned = ("" + phoneNumberString).replace(/\D/g, "");
+  let match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
+  if (match) {
+    let intlCode = match[1] ? "+1 " : "";
+    return [intlCode, "(", match[2], ") ", match[3], "-", match[4]].join("");
+  }
+  return null;
+}
+
+
+
+// async function fetchAlleys() {
+//   let alleyResultElement = document.getElementById("alley-container");
+  
+//   await fetch(`${BOWLING_URL}`)
+//     .then((response) => response.json())
+//     .then((data) => {
+//       console.log(data); // response is an object w/ .records array
+
+//       alleyResultElement.innerHTML = ""; // clear alleys
+
+//       let newHtml = "";
+
+//       for (let i = 0; i < data.records.length; i++) {
+//         let alleyPic = data.records[i].fields["image"];
+//         let alleyName = data.records[i].fields["name"];
+//         let alleyAddress = data.records[i].fields["address"];
+//         let alleyHours = data.records[i].fields["hours"];
+//         let alleyURL = data.records[i].fields["url"];
+//         let alleyPhone = formatPhoneNumber(data.records[i].fields["phone"]);
+//         let alleyLanes = data.records[i].fields["lanes"];
+//         let alleyCost = data.records[i].fields["cost"];
+
+//         newHtml += `
+//           <div class="col-md-4 alley-card">
+//             <div class="card">
+//               ${alleyPic ? `<img src="${alleyPic[0].url}">` : ``}
+//               <div class="card-body">
+//                 <h5 class="card-title">
+//                    ${alleyName}
+//                 </h5>
+//                 <p>${alleyAddress}</p>
+//                 <a class="mt-1 btn btn-primary mt-2" href="index.html?id=${
+//                   data.records[i].id
+//                 }">View Details</a>
+//               </div>
+//             </div>
+//           </div>
+//         `;
+//       }
+
+//       alleyResultElement.innerHTML = newHtml;
+//     });
+// }
+
+function fetchSingleAlley(alleyId) {
+  let alleyResultElement = document.getElementById("alley-container");
+  
+    const options = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer patuwPLWf5SBeDkyT.45118f887bbc6a79e8bb6c9d327b8c8105866bb0d6a0cdc2290006ddec22a74d`,
+    },
+  };
+
+    fetch(`${BOWLING_URL}/${alleyId}`,
+        options
+       )
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data); // response is a single object
+
+      let alleyPic = data.fields["image"];
+      let alleyName = data.fields["name"];
+      let alleyDescription = data.fields["description"];
+      let alleyAddress = data.fields["address"];
+      let alleyHours = data.fields["hours"];
+      let alleyURL = data.fields["url"];
+      let alleyPhone = formatPhoneNumber(data.fields["phone"]);
+      let alleyLanes = data.fields["lanes"];
+      let alleyCost = data.fields["cost"];
+      let alleyLeagues = data.fields["league"];
+
+      let hoursHtml = "";
+      if ("hours" in data.fields) {
+        hoursHtml += "<ul>";
+        let hours = data.fields["hours"].split("\n\n");
+        for (let i = 0; i < hours.length; i++) {
+          hoursHtml += `<li>${hours[i]}</li>`;
+        }
+        hoursHtml += "</ul>";
+      }
+
+      let newHtml = `
+        <div class="row">
+          <a class="back-button btn w-auto col-3" href="https://bowling-in-bay-area.glitch.me/#">Back to Alleys List</a>
+        </div>
+        <div class="row">
+          <div class="col">
+            ${
+              alleyPic
+                ? `<img class="details-image" src="${alleyPic[0].url}" alt="Photo of ${alleyName}">`
+                : ``
+            }
+            <h4>Official Website</h4>
+             <a href="${alleyURL}" target="_blank">${alleyName}</a>
+            <hr>
+            <h4>Contact</h4>
+            <p>${alleyPhone}</p>
+          </div>
+          <div class="col-lg-7">
+              <h2 id="details-title">${alleyName} - ${alleyLanes} Lanes</h2>
+              <hr>
+              <h4>Description</h4>
+              <p>${alleyDescription}</p>
+              <hr>
+              <h4>Address</h4>
+              <p class="addresses">${alleyAddress}</p>
+              <hr>
+              <h4>Hours</h4>
+              <p>${hoursHtml}</p>
+              <hr>
+              <h4>Pricing</h4>
+              <p>${alleyCost}</p>
+              <hr>
+              <h4>League</h4>
+              <p>${alleyLeagues ? `${alleyName} has Leagues!` : `${alleyName} doesn't have Leagues.`}</p>
+          </div>
+        </row>
+      `;
+
+      alleyResultElement.innerHTML = newHtml;
+    });
+}
+
+function searchFunction() {
+  var input, filter, cardimagetext, i, x;
+  input = document.getElementById("myinput");
+  filter = input.value.toUpperCase();
+  cardimagetext = document.getElementsByClassName("alley-card");
+
+  for (x = 0; x < cardimagetext.length; x++) {
+    i = cardimagetext[x].getElementsByClassName("addresses")[0];
+    if (i.innerHTML.toUpperCase().indexOf(filter) > -1) {
+      cardimagetext[x].style.display = "";
+    } else {
+      cardimagetext[x].style.display = "none";
+    }
+  }
+}
+
+// look up window.location.search and split, so this would take
+// https://dmspr2021-airtable-app.glitch.me/index.html?id=receHhOzntTGZ44I5
+// and look at the ?id=receHhOzntTGZ44I5 part, then split that into am array
+// ["id?=", "receHhOzntTGZ44I5"] and then we only choose the second one
+
+let idParams = window.location.search.split("?id=");
+if (idParams.length >= 2) {
+  // has at least ["id?", "OUR ID"]
+  fetchSingleAlley(idParams[1]); // create detail view HTML w/ our id
+} else {
+  fetchAlleys(); // no id given, fetch summaries
+}
+
+// patuwPLWf5SBeDkyT.ec1f9a82e5a11c7d9cdaf5049780b81d72e1395fd3e833ae933b83812f75c959
