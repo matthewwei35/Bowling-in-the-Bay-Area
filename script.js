@@ -54,18 +54,12 @@ async function fetchAlleys() {
             </div>
           </div>
     
-        
         `;
       }
 
       getResultElement.innerHTML = newHtml;
     });
 }
-
-
-
-// const SUMMARY_QUERY =
-//   "?fields%5B%5D=image&fields%5B%5D=name&fields%5B%5D=description&fields%5B%5D=address&fields%5B%5D=url&fields%5B%5D=hours&fields%5B%5D=phone&fields%5B%5D=league&fields%5B%5D=lanes&fields%5B%5D=cost";
 
 function formatPhoneNumber(phoneNumberString) {
   let cleaned = ("" + phoneNumberString).replace(/\D/g, "");
@@ -76,52 +70,6 @@ function formatPhoneNumber(phoneNumberString) {
   }
   return null;
 }
-
-
-
-// async function fetchAlleys() {
-//   let alleyResultElement = document.getElementById("alley-container");
-  
-//   await fetch(`${BOWLING_URL}`)
-//     .then((response) => response.json())
-//     .then((data) => {
-//       console.log(data); // response is an object w/ .records array
-
-//       alleyResultElement.innerHTML = ""; // clear alleys
-
-//       let newHtml = "";
-
-//       for (let i = 0; i < data.records.length; i++) {
-//         let alleyPic = data.records[i].fields["image"];
-//         let alleyName = data.records[i].fields["name"];
-//         let alleyAddress = data.records[i].fields["address"];
-//         let alleyHours = data.records[i].fields["hours"];
-//         let alleyURL = data.records[i].fields["url"];
-//         let alleyPhone = formatPhoneNumber(data.records[i].fields["phone"]);
-//         let alleyLanes = data.records[i].fields["lanes"];
-//         let alleyCost = data.records[i].fields["cost"];
-
-//         newHtml += `
-//           <div class="col-md-4 alley-card">
-//             <div class="card">
-//               ${alleyPic ? `<img src="${alleyPic[0].url}">` : ``}
-//               <div class="card-body">
-//                 <h5 class="card-title">
-//                    ${alleyName}
-//                 </h5>
-//                 <p>${alleyAddress}</p>
-//                 <a class="mt-1 btn btn-primary mt-2" href="index.html?id=${
-//                   data.records[i].id
-//                 }">View Details</a>
-//               </div>
-//             </div>
-//           </div>
-//         `;
-//       }
-
-//       alleyResultElement.innerHTML = newHtml;
-//     });
-// }
 
 function fetchSingleAlley(alleyId) {
   let alleyResultElement = document.getElementById("alley-container");
@@ -163,7 +111,7 @@ function fetchSingleAlley(alleyId) {
 
       let newHtml = `
         <div class="row">
-          <a class="back-button btn w-auto col-3" href="index.html">Back to Alleys List</a>
+          <a class="back-button btn w-auto col-3" href="./index.html">Back to Alleys List</a>
         </div>
         <div class="row">
           <div class="col">
@@ -203,21 +151,21 @@ function fetchSingleAlley(alleyId) {
     });
 }
 
-function searchFunction() {
-  var input, filter, cardimagetext, i, x;
-  input = document.getElementById("myinput");
-  filter = input.value.toUpperCase();
-  cardimagetext = document.getElementsByClassName("alley-card");
+// function searchFunction() {
+//   var input, filter, cardimagetext, i, x;
+//   input = document.getElementById("myinput");
+//   filter = input.value.toUpperCase();
+//   cardimagetext = document.getElementsByClassName("alley-card");
 
-  for (x = 0; x < cardimagetext.length; x++) {
-    i = cardimagetext[x].getElementsByClassName("addresses")[0];
-    if (i.innerHTML.toUpperCase().indexOf(filter) > -1) {
-      cardimagetext[x].style.display = "";
-    } else {
-      cardimagetext[x].style.display = "none";
-    }
-  }
-}
+//   for (x = 0; x < cardimagetext.length; x++) {
+//     i = cardimagetext[x].getElementsByClassName("addresses")[0];
+//     if (i.innerHTML.toUpperCase().indexOf(filter) > -1) {
+//       cardimagetext[x].style.display = "";
+//     } else {
+//       cardimagetext[x].style.display = "none";
+//     }
+//   }
+// }
 
 // look up window.location.search and split, so this would take
 // https://dmspr2021-airtable-app.glitch.me/index.html?id=receHhOzntTGZ44I5
@@ -231,5 +179,3 @@ if (idParams.length >= 2) {
 } else {
   fetchAlleys(); // no id given, fetch summaries
 }
-
-// patuwPLWf5SBeDkyT.ec1f9a82e5a11c7d9cdaf5049780b81d72e1395fd3e833ae933b83812f75c959
